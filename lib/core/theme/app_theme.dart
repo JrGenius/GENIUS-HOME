@@ -1,0 +1,253 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'app_colors.dart';
+
+/// GENIUS HOME™ — Dark glass dashboard theme
+/// Always dark. Night sky gradient. Frosted glass cards. Glowing accents.
+class AppTheme {
+  AppTheme._();
+
+  // ─── Animation ────────────────────────────────────────────────────
+  static const Curve springCurve = Curves.easeOutCubic;
+  static const Curve gentleCurve = Curves.easeInOutCubic;
+  static const Duration fast = Duration(milliseconds: 200);
+  static const Duration medium = Duration(milliseconds: 350);
+  static const Duration slow = Duration(milliseconds: 500);
+
+  // ─── Spacing ──────────────────────────────────────────────────────
+  static const double spacingXs = 4;
+  static const double spacingSm = 8;
+  static const double spacingMd = 16;
+  static const double spacingLg = 24;
+  static const double spacingXl = 32;
+  static const double spacingXxl = 48;
+
+  // ─── Border Radius ────────────────────────────────────────────────
+  static const double radiusSm = 12;
+  static const double radiusMd = 18;
+  static const double radiusLg = 24;
+  static const double radiusXl = 32;
+
+  // ─── Background gradient ──────────────────────────────────────────
+  static const LinearGradient backgroundGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.bgDarkTop, AppColors.bgDarkMid, AppColors.bgDarkBottom],
+  );
+
+  /// Single dark theme — the app is always dark
+  static ThemeData dark() {
+    final colorScheme = ColorScheme.dark(
+      primary: AppColors.accentBlue,
+      secondary: AppColors.accentPurple,
+      surface: AppColors.bgDarkMid,
+      onSurface: AppColors.textPrimary,
+      error: AppColors.critical,
+    );
+
+    final textTheme = GoogleFonts.interTextTheme(ThemeData.dark().textTheme)
+        .copyWith(
+          displayLarge: GoogleFonts.inter(
+            fontSize: 40,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -1.5,
+            color: AppColors.textPrimary,
+          ),
+          displayMedium: GoogleFonts.inter(
+            fontSize: 32,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -1.0,
+            color: AppColors.textPrimary,
+          ),
+          displaySmall: GoogleFonts.inter(
+            fontSize: 28,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.5,
+            color: AppColors.textPrimary,
+          ),
+          headlineLarge: GoogleFonts.inter(
+            fontSize: 26,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.5,
+            color: AppColors.textPrimary,
+          ),
+          headlineMedium: GoogleFonts.inter(
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.3,
+            color: AppColors.textPrimary,
+          ),
+          headlineSmall: GoogleFonts.inter(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+          titleLarge: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+          titleMedium: GoogleFonts.inter(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+          titleSmall: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+          bodyLarge: GoogleFonts.inter(
+            fontSize: 15,
+            fontWeight: FontWeight.w400,
+            height: 1.5,
+            color: AppColors.textSecondary,
+          ),
+          bodyMedium: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: FontWeight.w400,
+            height: 1.5,
+            color: AppColors.textSecondary,
+          ),
+          bodySmall: GoogleFonts.inter(
+            fontSize: 11,
+            fontWeight: FontWeight.w400,
+            height: 1.4,
+            color: AppColors.textTertiary,
+          ),
+          labelLarge: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.1,
+            color: AppColors.textSecondary,
+          ),
+          labelSmall: GoogleFonts.inter(
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.5,
+            color: AppColors.textTertiary,
+          ),
+        );
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme: colorScheme,
+      textTheme: textTheme,
+      scaffoldBackgroundColor: Colors.transparent,
+      appBarTheme: AppBarTheme(
+        centerTitle: false,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        foregroundColor: AppColors.textPrimary,
+        titleTextStyle: textTheme.headlineSmall,
+      ),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusMd),
+          side: const BorderSide(color: AppColors.glassBorder, width: 1),
+        ),
+        color: AppColors.glassCard,
+      ),
+      dialogTheme: DialogThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusLg),
+        ),
+        backgroundColor: AppColors.glassCardLight,
+        elevation: 16,
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: const Size(double.infinity, 52),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusSm),
+          ),
+          backgroundColor: AppColors.accentBlue,
+          foregroundColor: AppColors.white,
+          elevation: 0,
+          textStyle: textTheme.titleMedium,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(double.infinity, 52),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusSm),
+          ),
+          side: const BorderSide(color: AppColors.glassBorder),
+          foregroundColor: AppColors.textPrimary,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.accentBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusSm),
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.glassCard,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusSm),
+          borderSide: const BorderSide(color: AppColors.glassBorder),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusSm),
+          borderSide: const BorderSide(color: AppColors.glassBorder),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusSm),
+          borderSide: const BorderSide(color: AppColors.accentBlue, width: 1.5),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+        hintStyle: textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: AppColors.glassCard,
+        selectedColor: AppColors.accentBlue.withValues(alpha: 0.2),
+        side: const BorderSide(color: AppColors.glassBorder),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusSm),
+        ),
+        labelStyle: textTheme.bodyMedium,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(radiusLg)),
+        ),
+        backgroundColor: AppColors.glassCardLight,
+      ),
+      dividerTheme: const DividerThemeData(
+        color: AppColors.divider,
+        thickness: 0.5,
+        space: 0,
+      ),
+      listTileTheme: ListTileThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusSm),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        textColor: AppColors.textPrimary,
+        iconColor: AppColors.textSecondary,
+      ),
+      iconTheme: const IconThemeData(color: AppColors.textSecondary),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      ),
+    );
+  }
+}

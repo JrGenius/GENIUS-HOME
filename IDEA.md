@@ -1,6 +1,3 @@
-Voici un **prompt de niveau architecte produit** que vous pourrez utiliser avec ChatGPT, Claude Code ou Cursor AI afin de générer le projet complet. Il est rédigé comme un cahier des charges de développement et laisse suffisamment de liberté à l'IA pour produire une architecture propre et évolutive.
-
----
 
 # PROMPT GLOBAL — GENIUS HOME™ V1
 
