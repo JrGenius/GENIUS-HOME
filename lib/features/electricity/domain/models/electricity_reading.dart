@@ -13,6 +13,7 @@ abstract class ElectricityReading with _$ElectricityReading {
     required DateTime date,
     required double valueKwh,
     required MeterType meterType,
+    double? rateFcfaPerKwh,
     double? costFcfa,
     String? note,
     required DateTime createdAt,

@@ -13,6 +13,8 @@ class Houses extends Table {
   TextColumn get meterType => text().withDefault(const Constant('prepaid'))();
   TextColumn get preferredGasBottleType =>
       text().withDefault(const Constant('kg12'))();
+  RealColumn get electricityRateFcfaPerKwh =>
+      real().withDefault(const Constant(99.0))();
   TextColumn get address => text().nullable()();
   RealColumn get latitude => real().nullable()();
   RealColumn get longitude => real().nullable()();
@@ -68,6 +70,7 @@ class ElectricityReadings extends Table {
   DateTimeColumn get date => dateTime()();
   RealColumn get valueKwh => real()();
   TextColumn get meterType => text()();
+  RealColumn get rateFcfaPerKwh => real().nullable()();
   RealColumn get costFcfa => real().nullable()();
   TextColumn get note => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
@@ -102,7 +105,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -115,6 +118,13 @@ class AppDatabase extends _$AppDatabase {
         await migrator.addColumn(houses, houses.meterType);
         await migrator.addColumn(houses, houses.preferredGasBottleType);
         await _createIndexes();
+      }
+      if (from < 3) {
+        await migrator.addColumn(houses, houses.electricityRateFcfaPerKwh);
+        await migrator.addColumn(
+          electricityReadings,
+          electricityReadings.rateFcfaPerKwh,
+        );
       }
     },
     beforeOpen: (_) async {

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/constants/enums.dart';
 
 part 'house.freezed.dart';
@@ -15,6 +16,8 @@ abstract class House with _$House {
     @Default(4) int inhabitants,
     @Default(MeterType.prepaid) MeterType meterType,
     @Default(GasBottleType.kg12) GasBottleType preferredGasBottleType,
+    @Default(AppConstants.defaultElectricityRate)
+    double electricityRateFcfaPerKwh,
     String? address,
     double? latitude,
     double? longitude,

@@ -40,6 +40,7 @@ void main() {
             roomCount: 3,
             meterType: MeterType.postpaid,
             gasBottleType: GasBottleType.kg25,
+            electricityRateFcfaPerKwh: 143,
           ),
         );
 
@@ -50,6 +51,7 @@ void main() {
     expect(houses.single.inhabitants, 5);
     expect(houses.single.meterType, MeterType.postpaid);
     expect(houses.single.preferredGasBottleType, GasBottleType.kg25);
+    expect(houses.single.electricityRateFcfaPerKwh, 143);
 
     final rooms = await container
         .read(roomRepositoryProvider)

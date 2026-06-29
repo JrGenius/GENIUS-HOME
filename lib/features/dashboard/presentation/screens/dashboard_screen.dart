@@ -169,8 +169,15 @@ class _ElectricityRingCard extends StatelessWidget {
             children: [
               Icon(Icons.bolt_rounded, color: AppColors.accentBlue, size: 18),
               const SizedBox(width: 8),
-              Text('Électricité', style: context.textTheme.titleMedium),
-              const Spacer(),
+              Expanded(
+                child: Text(
+                  'Électricité',
+                  style: context.textTheme.titleMedium,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+              const SizedBox(width: 4),
               Icon(
                 Icons.more_horiz_rounded,
                 size: 18,
@@ -289,8 +296,15 @@ class _GasRingCard extends StatelessWidget {
                 size: 18,
               ),
               const SizedBox(width: 8),
-              Text('Gaz (Butane)', style: context.textTheme.titleMedium),
-              const Spacer(),
+              Expanded(
+                child: Text(
+                  'Gaz (Butane)',
+                  style: context.textTheme.titleMedium,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+              const SizedBox(width: 4),
               Icon(
                 Icons.more_horiz_rounded,
                 size: 18,

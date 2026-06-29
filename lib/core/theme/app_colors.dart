@@ -54,19 +54,19 @@ class AppColors {
   static const Color chartDot = Color(0xFFFFFFFF);
 
   // ─── Onboarding (dark glass premium, Ivorian-friendly) ───────────
-  static const Color onbBgTop = Color(0xFF0B1324);
-  static const Color onbBgBottom = Color(0xFF111A33);
-  static const Color onbCard = Color(0xFF162040);
-  static const Color onbCardBorder = Color(0x40FFFFFF);
-  static const Color onbBlue = Color(0xFF1E5ABA);
-  static const Color onbBlueBright = Color(0xFF4CC9F0);
+  static const Color onbBgTop = Color(0xFFFFFFFF);
+  static const Color onbBgBottom = Color(0xFFFFFFFF);
+  static const Color onbCard = Color(0xFFF8FAFE);
+  static const Color onbCardBorder = Color(0xFFDDE5F1);
+  static const Color onbBlue = Color(0xFF155AD8);
+  static const Color onbBlueBright = Color(0xFF2F7DF6);
   static const Color onbOrange = Color(0xFFFFB703);
   static const Color onbGreen = Color(0xFF22C55E);
   static const Color onbRed = Color(0xFFFF5A5F);
-  static const Color onbTextPrimary = Color(0xFFE2E6F0);
-  static const Color onbTextSub = Color(0xFF8B9DC3);
-  static const Color onbGlass = Color(0x1AFFFFFF);
-  static const Color onbGlassBorder = Color(0x30FFFFFF);
+  static const Color onbTextPrimary = Color(0xFF111827);
+  static const Color onbTextSub = Color(0xFF60708D);
+  static const Color onbGlass = Color(0xFFFFFFFF);
+  static const Color onbGlassBorder = Color(0xFFDCE4F0);
   static const Color onbBtnGlow = Color(0xFF1E5ABA);
 
   // ─── Backward compatibility aliases ───────────────────────────────

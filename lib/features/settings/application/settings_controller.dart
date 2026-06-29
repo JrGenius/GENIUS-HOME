@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show ThemeMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/providers/providers.dart';
@@ -9,6 +10,20 @@ final settingsControllerProvider =
     StateNotifierProvider<SettingsController, AppSettings>((ref) {
       return SettingsController(ref.watch(settingsRepositoryProvider));
     });
+
+final themeModeProvider = Provider<ThemeMode>((ref) {
+  final mode = ref.watch(
+    settingsControllerProvider.select((settings) => settings.themeMode),
+  );
+  switch (mode) {
+    case 'light':
+      return ThemeMode.light;
+    case 'dark':
+      return ThemeMode.dark;
+    default:
+      return ThemeMode.system;
+  }
+});
 
 final currentHouseIdProvider = Provider<String?>(
   (ref) => ref.watch(

@@ -27,7 +27,9 @@ class OnboardingProgress extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(2),
-                color: active ? AppColors.onbBlueBright : AppColors.onbGlass,
+                color: active
+                    ? AppColors.onbBlueBright
+                    : AppColors.onbGlassBorder,
                 boxShadow: active
                     ? [
                         BoxShadow(

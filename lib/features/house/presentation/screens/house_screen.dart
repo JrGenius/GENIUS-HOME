@@ -106,19 +106,30 @@ class HouseScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (_) => HouseFormDialog(
-        onSave: (name, inhabitants, rooms) async {
-          final house = House(
-            id: const Uuid().v4(),
-            name: name,
-            inhabitants: inhabitants,
-            roomCount: rooms,
-            createdAt: DateTime.now(),
-          );
-          await ref.read(houseRepositoryProvider).insert(house);
-          await ref
-              .read(settingsControllerProvider.notifier)
-              .selectHouse(house.id);
-        },
+        onSave:
+            (
+              name,
+              inhabitants,
+              rooms,
+              meterType,
+              gasBottleType,
+              electricityRate,
+            ) async {
+              final house = House(
+                id: const Uuid().v4(),
+                name: name,
+                inhabitants: inhabitants,
+                roomCount: rooms,
+                meterType: meterType,
+                preferredGasBottleType: gasBottleType,
+                electricityRateFcfaPerKwh: electricityRate,
+                createdAt: DateTime.now(),
+              );
+              await ref.read(houseRepositoryProvider).insert(house);
+              await ref
+                  .read(settingsControllerProvider.notifier)
+                  .selectHouse(house.id);
+            },
       ),
     );
   }
@@ -130,15 +141,29 @@ class HouseScreen extends ConsumerWidget {
         initialName: house.name,
         initialInhabitants: house.inhabitants,
         initialRooms: house.roomCount,
-        onSave: (name, inhabitants, rooms) async {
-          final updated = house.copyWith(
-            name: name,
-            inhabitants: inhabitants,
-            roomCount: rooms,
-            updatedAt: DateTime.now(),
-          );
-          await ref.read(houseRepositoryProvider).update(updated);
-        },
+        initialMeterType: house.meterType,
+        initialGasBottleType: house.preferredGasBottleType,
+        initialElectricityRateFcfaPerKwh: house.electricityRateFcfaPerKwh,
+        onSave:
+            (
+              name,
+              inhabitants,
+              rooms,
+              meterType,
+              gasBottleType,
+              electricityRate,
+            ) async {
+              final updated = house.copyWith(
+                name: name,
+                inhabitants: inhabitants,
+                roomCount: rooms,
+                meterType: meterType,
+                preferredGasBottleType: gasBottleType,
+                electricityRateFcfaPerKwh: electricityRate,
+                updatedAt: DateTime.now(),
+              );
+              await ref.read(houseRepositoryProvider).update(updated);
+            },
       ),
     );
   }
@@ -261,6 +286,12 @@ class _HouseCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   '${house.roomCount} pièces · ${house.inhabitants} habitants',
+                  style: context.textTheme.labelSmall,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '${house.meterType.label} · ${house.preferredGasBottleType.label} · '
+                  '${house.electricityRateFcfaPerKwh.toStringAsFixed(0)} FCFA/kWh',
                   style: context.textTheme.labelSmall,
                 ),
               ],

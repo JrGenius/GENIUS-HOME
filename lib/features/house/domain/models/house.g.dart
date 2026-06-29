@@ -21,6 +21,9 @@ _House _$HouseFromJson(Map<String, dynamic> json) => _House(
         json['preferredGasBottleType'],
       ) ??
       GasBottleType.kg12,
+  electricityRateFcfaPerKwh:
+      (json['electricityRateFcfaPerKwh'] as num?)?.toDouble() ??
+      AppConstants.defaultElectricityRate,
   address: json['address'] as String?,
   latitude: (json['latitude'] as num?)?.toDouble(),
   longitude: (json['longitude'] as num?)?.toDouble(),
@@ -41,6 +44,7 @@ Map<String, dynamic> _$HouseToJson(_House instance) => <String, dynamic>{
   'meterType': _$MeterTypeEnumMap[instance.meterType]!,
   'preferredGasBottleType':
       _$GasBottleTypeEnumMap[instance.preferredGasBottleType]!,
+  'electricityRateFcfaPerKwh': instance.electricityRateFcfaPerKwh,
   'address': instance.address,
   'latitude': instance.latitude,
   'longitude': instance.longitude,

@@ -34,6 +34,11 @@ class ElectricityScreen extends ConsumerWidget {
     }
 
     final repo = ref.watch(electricityRepositoryProvider);
+    final activeHouse = ref.watch(currentHouseProvider).asData?.value;
+    final electricityRate =
+        activeHouse?.electricityRateFcfaPerKwh ??
+        ref.watch(settingsControllerProvider).electricityRateFcfa;
+    final meterType = activeHouse?.meterType ?? MeterType.prepaid;
 
     return Scaffold(
       body: SafeArea(
@@ -60,7 +65,7 @@ class ElectricityScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppTheme.spacingXl),
 
-                _StatsRow(readings: readings),
+                _StatsRow(readings: readings, electricityRate: electricityRate),
                 const SizedBox(height: AppTheme.spacingLg),
 
                 if (readings.length >= 2) ...[
@@ -101,7 +106,13 @@ class ElectricityScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddReading(context, ref, houseId),
+        onPressed: () => _showAddReading(
+          context,
+          ref,
+          houseId,
+          initialMeterType: meterType,
+          initialRateFcfaPerKwh: electricityRate,
+        ),
         backgroundColor: AppColors.geniusBlueSoft,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -110,93 +121,139 @@ class ElectricityScreen extends ConsumerWidget {
     );
   }
 
-  void _showAddReading(BuildContext context, WidgetRef ref, String houseId) {
+  void _showAddReading(
+    BuildContext context,
+    WidgetRef ref,
+    String houseId, {
+    required MeterType initialMeterType,
+    required double initialRateFcfaPerKwh,
+  }) {
     final valueCtrl = TextEditingController();
-    final costCtrl = TextEditingController();
-    var meterType = MeterType.prepaid;
+    final rateCtrl = TextEditingController(
+      text: initialRateFcfaPerKwh.toStringAsFixed(0),
+    );
+    var meterType = initialMeterType;
+
+    double? parseInput(String value) =>
+        double.tryParse(value.trim().replaceAll(',', '.'));
 
     showDialog(
       context: context,
       builder: (_) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Nouveau relevé'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: valueCtrl,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
+        builder: (context, setDialogState) {
+          final valueKwh = parseInput(valueCtrl.text);
+          final rate = parseInput(rateCtrl.text);
+          final estimatedCost = valueKwh != null && rate != null
+              ? valueKwh * rate
+              : null;
+
+          return AlertDialog(
+            title: const Text('Nouveau relevé'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: valueCtrl,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    onChanged: (_) => setDialogState(() {}),
+                    decoration: const InputDecoration(
+                      labelText: 'Quantité achetée ou relevée',
+                      suffixText: 'kWh',
+                    ),
                   ),
-                  decoration: const InputDecoration(
-                    labelText: 'Valeur (kWh)',
-                    suffixText: 'kWh',
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: rateCtrl,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    onChanged: (_) => setDialogState(() {}),
+                    decoration: const InputDecoration(
+                      labelText: 'Prix du kWh de ce compteur',
+                      suffixText: 'FCFA/kWh',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: costCtrl,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
+                  const SizedBox(height: 12),
+                  if (estimatedCost != null)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Coût estimé : ${Formatters.currency(estimatedCost)}',
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.economy,
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 16),
+                  SegmentedButton<MeterType>(
+                    segments: MeterType.values
+                        .map(
+                          (t) => ButtonSegment(value: t, label: Text(t.label)),
+                        )
+                        .toList(),
+                    selected: {meterType},
+                    onSelectionChanged: (v) =>
+                        setDialogState(() => meterType = v.first),
                   ),
-                  decoration: const InputDecoration(
-                    labelText: 'Coût (optionnel)',
-                    suffixText: 'FCFA',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                SegmentedButton<MeterType>(
-                  segments: MeterType.values
-                      .map((t) => ButtonSegment(value: t, label: Text(t.label)))
-                      .toList(),
-                  selected: {meterType},
-                  onSelectionChanged: (v) =>
-                      setDialogState(() => meterType = v.first),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Annuler'),
-            ),
-            FilledButton(
-              onPressed: () async {
-                final value = double.tryParse(valueCtrl.text);
-                if (value == null) return;
-                final cost = double.tryParse(costCtrl.text);
-                final reading = ElectricityReading(
-                  id: const Uuid().v4(),
-                  houseId: houseId,
-                  date: DateTime.now(),
-                  valueKwh: value,
-                  meterType: meterType,
-                  costFcfa: cost,
-                  createdAt: DateTime.now(),
-                );
-                await ref.read(electricityRepositoryProvider).insert(reading);
-                if (context.mounted) Navigator.pop(context);
-              },
-              child: const Text('Ajouter'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Annuler'),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  final value = parseInput(valueCtrl.text);
+                  final rate = parseInput(rateCtrl.text);
+                  if (value == null ||
+                      value <= 0 ||
+                      rate == null ||
+                      rate <= 0) {
+                    return;
+                  }
+                  final now = DateTime.now();
+                  final reading = ElectricityReading(
+                    id: const Uuid().v4(),
+                    houseId: houseId,
+                    date: now,
+                    valueKwh: value,
+                    meterType: meterType,
+                    rateFcfaPerKwh: rate,
+                    costFcfa: value * rate,
+                    createdAt: now,
+                  );
+                  await ref.read(electricityRepositoryProvider).insert(reading);
+                  if (context.mounted) Navigator.pop(context);
+                },
+                child: const Text('Ajouter'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
 class _StatsRow extends StatelessWidget {
-  const _StatsRow({required this.readings});
+  const _StatsRow({required this.readings, required this.electricityRate});
   final List<ElectricityReading> readings;
+  final double electricityRate;
 
   @override
   Widget build(BuildContext context) {
     final daily = ElectricityService.averageDaily(readings);
     final monthly = ElectricityService.averageMonthly(readings);
-    final cost = ElectricityService.estimatedMonthlyCost(readings);
+    final cost = ElectricityService.estimatedMonthlyCost(
+      readings,
+      rate: electricityRate,
+    );
 
     return Row(
       children: [

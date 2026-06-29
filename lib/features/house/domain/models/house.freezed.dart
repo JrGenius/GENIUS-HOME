@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$House {
 
- String get id; String get name; String? get photoPath; int get roomCount; int get inhabitants; MeterType get meterType; GasBottleType get preferredGasBottleType; String? get address; double? get latitude; double? get longitude; double? get surfaceM2; String? get timezone; DateTime get createdAt; DateTime? get updatedAt;
+ String get id; String get name; String? get photoPath; int get roomCount; int get inhabitants; MeterType get meterType; GasBottleType get preferredGasBottleType; double get electricityRateFcfaPerKwh; String? get address; double? get latitude; double? get longitude; double? get surfaceM2; String? get timezone; DateTime get createdAt; DateTime? get updatedAt;
 /// Create a copy of House
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $HouseCopyWith<House> get copyWith => _$HouseCopyWithImpl<House>(this as House, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is House&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoPath, photoPath) || other.photoPath == photoPath)&&(identical(other.roomCount, roomCount) || other.roomCount == roomCount)&&(identical(other.inhabitants, inhabitants) || other.inhabitants == inhabitants)&&(identical(other.meterType, meterType) || other.meterType == meterType)&&(identical(other.preferredGasBottleType, preferredGasBottleType) || other.preferredGasBottleType == preferredGasBottleType)&&(identical(other.address, address) || other.address == address)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.surfaceM2, surfaceM2) || other.surfaceM2 == surfaceM2)&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is House&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoPath, photoPath) || other.photoPath == photoPath)&&(identical(other.roomCount, roomCount) || other.roomCount == roomCount)&&(identical(other.inhabitants, inhabitants) || other.inhabitants == inhabitants)&&(identical(other.meterType, meterType) || other.meterType == meterType)&&(identical(other.preferredGasBottleType, preferredGasBottleType) || other.preferredGasBottleType == preferredGasBottleType)&&(identical(other.electricityRateFcfaPerKwh, electricityRateFcfaPerKwh) || other.electricityRateFcfaPerKwh == electricityRateFcfaPerKwh)&&(identical(other.address, address) || other.address == address)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.surfaceM2, surfaceM2) || other.surfaceM2 == surfaceM2)&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,photoPath,roomCount,inhabitants,meterType,preferredGasBottleType,address,latitude,longitude,surfaceM2,timezone,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,photoPath,roomCount,inhabitants,meterType,preferredGasBottleType,electricityRateFcfaPerKwh,address,latitude,longitude,surfaceM2,timezone,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'House(id: $id, name: $name, photoPath: $photoPath, roomCount: $roomCount, inhabitants: $inhabitants, meterType: $meterType, preferredGasBottleType: $preferredGasBottleType, address: $address, latitude: $latitude, longitude: $longitude, surfaceM2: $surfaceM2, timezone: $timezone, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'House(id: $id, name: $name, photoPath: $photoPath, roomCount: $roomCount, inhabitants: $inhabitants, meterType: $meterType, preferredGasBottleType: $preferredGasBottleType, electricityRateFcfaPerKwh: $electricityRateFcfaPerKwh, address: $address, latitude: $latitude, longitude: $longitude, surfaceM2: $surfaceM2, timezone: $timezone, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $HouseCopyWith<$Res>  {
   factory $HouseCopyWith(House value, $Res Function(House) _then) = _$HouseCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String? photoPath, int roomCount, int inhabitants, MeterType meterType, GasBottleType preferredGasBottleType, String? address, double? latitude, double? longitude, double? surfaceM2, String? timezone, DateTime createdAt, DateTime? updatedAt
+ String id, String name, String? photoPath, int roomCount, int inhabitants, MeterType meterType, GasBottleType preferredGasBottleType, double electricityRateFcfaPerKwh, String? address, double? latitude, double? longitude, double? surfaceM2, String? timezone, DateTime createdAt, DateTime? updatedAt
 });
 
 
@@ -65,7 +65,7 @@ class _$HouseCopyWithImpl<$Res>
 
 /// Create a copy of House
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? photoPath = freezed,Object? roomCount = null,Object? inhabitants = null,Object? meterType = null,Object? preferredGasBottleType = null,Object? address = freezed,Object? latitude = freezed,Object? longitude = freezed,Object? surfaceM2 = freezed,Object? timezone = freezed,Object? createdAt = null,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? photoPath = freezed,Object? roomCount = null,Object? inhabitants = null,Object? meterType = null,Object? preferredGasBottleType = null,Object? electricityRateFcfaPerKwh = null,Object? address = freezed,Object? latitude = freezed,Object? longitude = freezed,Object? surfaceM2 = freezed,Object? timezone = freezed,Object? createdAt = null,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,8 @@ as String?,roomCount: null == roomCount ? _self.roomCount : roomCount // ignore:
 as int,inhabitants: null == inhabitants ? _self.inhabitants : inhabitants // ignore: cast_nullable_to_non_nullable
 as int,meterType: null == meterType ? _self.meterType : meterType // ignore: cast_nullable_to_non_nullable
 as MeterType,preferredGasBottleType: null == preferredGasBottleType ? _self.preferredGasBottleType : preferredGasBottleType // ignore: cast_nullable_to_non_nullable
-as GasBottleType,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as GasBottleType,electricityRateFcfaPerKwh: null == electricityRateFcfaPerKwh ? _self.electricityRateFcfaPerKwh : electricityRateFcfaPerKwh // ignore: cast_nullable_to_non_nullable
+as double,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String?,latitude: freezed == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double?,longitude: freezed == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double?,surfaceM2: freezed == surfaceM2 ? _self.surfaceM2 : surfaceM2 // ignore: cast_nullable_to_non_nullable
@@ -166,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? photoPath,  int roomCount,  int inhabitants,  MeterType meterType,  GasBottleType preferredGasBottleType,  String? address,  double? latitude,  double? longitude,  double? surfaceM2,  String? timezone,  DateTime createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? photoPath,  int roomCount,  int inhabitants,  MeterType meterType,  GasBottleType preferredGasBottleType,  double electricityRateFcfaPerKwh,  String? address,  double? latitude,  double? longitude,  double? surfaceM2,  String? timezone,  DateTime createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _House() when $default != null:
-return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabitants,_that.meterType,_that.preferredGasBottleType,_that.address,_that.latitude,_that.longitude,_that.surfaceM2,_that.timezone,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabitants,_that.meterType,_that.preferredGasBottleType,_that.electricityRateFcfaPerKwh,_that.address,_that.latitude,_that.longitude,_that.surfaceM2,_that.timezone,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -187,10 +188,10 @@ return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? photoPath,  int roomCount,  int inhabitants,  MeterType meterType,  GasBottleType preferredGasBottleType,  String? address,  double? latitude,  double? longitude,  double? surfaceM2,  String? timezone,  DateTime createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? photoPath,  int roomCount,  int inhabitants,  MeterType meterType,  GasBottleType preferredGasBottleType,  double electricityRateFcfaPerKwh,  String? address,  double? latitude,  double? longitude,  double? surfaceM2,  String? timezone,  DateTime createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _House():
-return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabitants,_that.meterType,_that.preferredGasBottleType,_that.address,_that.latitude,_that.longitude,_that.surfaceM2,_that.timezone,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabitants,_that.meterType,_that.preferredGasBottleType,_that.electricityRateFcfaPerKwh,_that.address,_that.latitude,_that.longitude,_that.surfaceM2,_that.timezone,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +208,10 @@ return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? photoPath,  int roomCount,  int inhabitants,  MeterType meterType,  GasBottleType preferredGasBottleType,  String? address,  double? latitude,  double? longitude,  double? surfaceM2,  String? timezone,  DateTime createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? photoPath,  int roomCount,  int inhabitants,  MeterType meterType,  GasBottleType preferredGasBottleType,  double electricityRateFcfaPerKwh,  String? address,  double? latitude,  double? longitude,  double? surfaceM2,  String? timezone,  DateTime createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _House() when $default != null:
-return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabitants,_that.meterType,_that.preferredGasBottleType,_that.address,_that.latitude,_that.longitude,_that.surfaceM2,_that.timezone,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabitants,_that.meterType,_that.preferredGasBottleType,_that.electricityRateFcfaPerKwh,_that.address,_that.latitude,_that.longitude,_that.surfaceM2,_that.timezone,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -222,7 +223,7 @@ return $default(_that.id,_that.name,_that.photoPath,_that.roomCount,_that.inhabi
 @JsonSerializable()
 
 class _House implements House {
-  const _House({required this.id, required this.name, this.photoPath, this.roomCount = 4, this.inhabitants = 4, this.meterType = MeterType.prepaid, this.preferredGasBottleType = GasBottleType.kg12, this.address, this.latitude, this.longitude, this.surfaceM2, this.timezone, required this.createdAt, this.updatedAt});
+  const _House({required this.id, required this.name, this.photoPath, this.roomCount = 4, this.inhabitants = 4, this.meterType = MeterType.prepaid, this.preferredGasBottleType = GasBottleType.kg12, this.electricityRateFcfaPerKwh = AppConstants.defaultElectricityRate, this.address, this.latitude, this.longitude, this.surfaceM2, this.timezone, required this.createdAt, this.updatedAt});
   factory _House.fromJson(Map<String, dynamic> json) => _$HouseFromJson(json);
 
 @override final  String id;
@@ -232,6 +233,7 @@ class _House implements House {
 @override@JsonKey() final  int inhabitants;
 @override@JsonKey() final  MeterType meterType;
 @override@JsonKey() final  GasBottleType preferredGasBottleType;
+@override@JsonKey() final  double electricityRateFcfaPerKwh;
 @override final  String? address;
 @override final  double? latitude;
 @override final  double? longitude;
@@ -253,16 +255,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _House&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoPath, photoPath) || other.photoPath == photoPath)&&(identical(other.roomCount, roomCount) || other.roomCount == roomCount)&&(identical(other.inhabitants, inhabitants) || other.inhabitants == inhabitants)&&(identical(other.meterType, meterType) || other.meterType == meterType)&&(identical(other.preferredGasBottleType, preferredGasBottleType) || other.preferredGasBottleType == preferredGasBottleType)&&(identical(other.address, address) || other.address == address)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.surfaceM2, surfaceM2) || other.surfaceM2 == surfaceM2)&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _House&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoPath, photoPath) || other.photoPath == photoPath)&&(identical(other.roomCount, roomCount) || other.roomCount == roomCount)&&(identical(other.inhabitants, inhabitants) || other.inhabitants == inhabitants)&&(identical(other.meterType, meterType) || other.meterType == meterType)&&(identical(other.preferredGasBottleType, preferredGasBottleType) || other.preferredGasBottleType == preferredGasBottleType)&&(identical(other.electricityRateFcfaPerKwh, electricityRateFcfaPerKwh) || other.electricityRateFcfaPerKwh == electricityRateFcfaPerKwh)&&(identical(other.address, address) || other.address == address)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.surfaceM2, surfaceM2) || other.surfaceM2 == surfaceM2)&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,photoPath,roomCount,inhabitants,meterType,preferredGasBottleType,address,latitude,longitude,surfaceM2,timezone,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,photoPath,roomCount,inhabitants,meterType,preferredGasBottleType,electricityRateFcfaPerKwh,address,latitude,longitude,surfaceM2,timezone,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'House(id: $id, name: $name, photoPath: $photoPath, roomCount: $roomCount, inhabitants: $inhabitants, meterType: $meterType, preferredGasBottleType: $preferredGasBottleType, address: $address, latitude: $latitude, longitude: $longitude, surfaceM2: $surfaceM2, timezone: $timezone, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'House(id: $id, name: $name, photoPath: $photoPath, roomCount: $roomCount, inhabitants: $inhabitants, meterType: $meterType, preferredGasBottleType: $preferredGasBottleType, electricityRateFcfaPerKwh: $electricityRateFcfaPerKwh, address: $address, latitude: $latitude, longitude: $longitude, surfaceM2: $surfaceM2, timezone: $timezone, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -273,7 +275,7 @@ abstract mixin class _$HouseCopyWith<$Res> implements $HouseCopyWith<$Res> {
   factory _$HouseCopyWith(_House value, $Res Function(_House) _then) = __$HouseCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String? photoPath, int roomCount, int inhabitants, MeterType meterType, GasBottleType preferredGasBottleType, String? address, double? latitude, double? longitude, double? surfaceM2, String? timezone, DateTime createdAt, DateTime? updatedAt
+ String id, String name, String? photoPath, int roomCount, int inhabitants, MeterType meterType, GasBottleType preferredGasBottleType, double electricityRateFcfaPerKwh, String? address, double? latitude, double? longitude, double? surfaceM2, String? timezone, DateTime createdAt, DateTime? updatedAt
 });
 
 
@@ -290,7 +292,7 @@ class __$HouseCopyWithImpl<$Res>
 
 /// Create a copy of House
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? photoPath = freezed,Object? roomCount = null,Object? inhabitants = null,Object? meterType = null,Object? preferredGasBottleType = null,Object? address = freezed,Object? latitude = freezed,Object? longitude = freezed,Object? surfaceM2 = freezed,Object? timezone = freezed,Object? createdAt = null,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? photoPath = freezed,Object? roomCount = null,Object? inhabitants = null,Object? meterType = null,Object? preferredGasBottleType = null,Object? electricityRateFcfaPerKwh = null,Object? address = freezed,Object? latitude = freezed,Object? longitude = freezed,Object? surfaceM2 = freezed,Object? timezone = freezed,Object? createdAt = null,Object? updatedAt = freezed,}) {
   return _then(_House(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -299,7 +301,8 @@ as String?,roomCount: null == roomCount ? _self.roomCount : roomCount // ignore:
 as int,inhabitants: null == inhabitants ? _self.inhabitants : inhabitants // ignore: cast_nullable_to_non_nullable
 as int,meterType: null == meterType ? _self.meterType : meterType // ignore: cast_nullable_to_non_nullable
 as MeterType,preferredGasBottleType: null == preferredGasBottleType ? _self.preferredGasBottleType : preferredGasBottleType // ignore: cast_nullable_to_non_nullable
-as GasBottleType,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as GasBottleType,electricityRateFcfaPerKwh: null == electricityRateFcfaPerKwh ? _self.electricityRateFcfaPerKwh : electricityRateFcfaPerKwh // ignore: cast_nullable_to_non_nullable
+as double,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String?,latitude: freezed == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double?,longitude: freezed == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double?,surfaceM2: freezed == surfaceM2 ? _self.surfaceM2 : surfaceM2 // ignore: cast_nullable_to_non_nullable

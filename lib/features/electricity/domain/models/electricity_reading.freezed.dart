@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ElectricityReading {
 
- String get id; String get houseId; DateTime get date; double get valueKwh; MeterType get meterType; double? get costFcfa; String? get note; DateTime get createdAt;
+ String get id; String get houseId; DateTime get date; double get valueKwh; MeterType get meterType; double? get rateFcfaPerKwh; double? get costFcfa; String? get note; DateTime get createdAt;
 /// Create a copy of ElectricityReading
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ElectricityReadingCopyWith<ElectricityReading> get copyWith => _$ElectricityRea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElectricityReading&&(identical(other.id, id) || other.id == id)&&(identical(other.houseId, houseId) || other.houseId == houseId)&&(identical(other.date, date) || other.date == date)&&(identical(other.valueKwh, valueKwh) || other.valueKwh == valueKwh)&&(identical(other.meterType, meterType) || other.meterType == meterType)&&(identical(other.costFcfa, costFcfa) || other.costFcfa == costFcfa)&&(identical(other.note, note) || other.note == note)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElectricityReading&&(identical(other.id, id) || other.id == id)&&(identical(other.houseId, houseId) || other.houseId == houseId)&&(identical(other.date, date) || other.date == date)&&(identical(other.valueKwh, valueKwh) || other.valueKwh == valueKwh)&&(identical(other.meterType, meterType) || other.meterType == meterType)&&(identical(other.rateFcfaPerKwh, rateFcfaPerKwh) || other.rateFcfaPerKwh == rateFcfaPerKwh)&&(identical(other.costFcfa, costFcfa) || other.costFcfa == costFcfa)&&(identical(other.note, note) || other.note == note)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,houseId,date,valueKwh,meterType,costFcfa,note,createdAt);
+int get hashCode => Object.hash(runtimeType,id,houseId,date,valueKwh,meterType,rateFcfaPerKwh,costFcfa,note,createdAt);
 
 @override
 String toString() {
-  return 'ElectricityReading(id: $id, houseId: $houseId, date: $date, valueKwh: $valueKwh, meterType: $meterType, costFcfa: $costFcfa, note: $note, createdAt: $createdAt)';
+  return 'ElectricityReading(id: $id, houseId: $houseId, date: $date, valueKwh: $valueKwh, meterType: $meterType, rateFcfaPerKwh: $rateFcfaPerKwh, costFcfa: $costFcfa, note: $note, createdAt: $createdAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ElectricityReadingCopyWith<$Res>  {
   factory $ElectricityReadingCopyWith(ElectricityReading value, $Res Function(ElectricityReading) _then) = _$ElectricityReadingCopyWithImpl;
 @useResult
 $Res call({
- String id, String houseId, DateTime date, double valueKwh, MeterType meterType, double? costFcfa, String? note, DateTime createdAt
+ String id, String houseId, DateTime date, double valueKwh, MeterType meterType, double? rateFcfaPerKwh, double? costFcfa, String? note, DateTime createdAt
 });
 
 
@@ -65,14 +65,15 @@ class _$ElectricityReadingCopyWithImpl<$Res>
 
 /// Create a copy of ElectricityReading
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? houseId = null,Object? date = null,Object? valueKwh = null,Object? meterType = null,Object? costFcfa = freezed,Object? note = freezed,Object? createdAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? houseId = null,Object? date = null,Object? valueKwh = null,Object? meterType = null,Object? rateFcfaPerKwh = freezed,Object? costFcfa = freezed,Object? note = freezed,Object? createdAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,houseId: null == houseId ? _self.houseId : houseId // ignore: cast_nullable_to_non_nullable
 as String,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,valueKwh: null == valueKwh ? _self.valueKwh : valueKwh // ignore: cast_nullable_to_non_nullable
 as double,meterType: null == meterType ? _self.meterType : meterType // ignore: cast_nullable_to_non_nullable
-as MeterType,costFcfa: freezed == costFcfa ? _self.costFcfa : costFcfa // ignore: cast_nullable_to_non_nullable
+as MeterType,rateFcfaPerKwh: freezed == rateFcfaPerKwh ? _self.rateFcfaPerKwh : rateFcfaPerKwh // ignore: cast_nullable_to_non_nullable
+as double?,costFcfa: freezed == costFcfa ? _self.costFcfa : costFcfa // ignore: cast_nullable_to_non_nullable
 as double?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String houseId,  DateTime date,  double valueKwh,  MeterType meterType,  double? costFcfa,  String? note,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String houseId,  DateTime date,  double valueKwh,  MeterType meterType,  double? rateFcfaPerKwh,  double? costFcfa,  String? note,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ElectricityReading() when $default != null:
-return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType,_that.costFcfa,_that.note,_that.createdAt);case _:
+return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType,_that.rateFcfaPerKwh,_that.costFcfa,_that.note,_that.createdAt);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String houseId,  DateTime date,  double valueKwh,  MeterType meterType,  double? costFcfa,  String? note,  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String houseId,  DateTime date,  double valueKwh,  MeterType meterType,  double? rateFcfaPerKwh,  double? costFcfa,  String? note,  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _ElectricityReading():
-return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType,_that.costFcfa,_that.note,_that.createdAt);case _:
+return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType,_that.rateFcfaPerKwh,_that.costFcfa,_that.note,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String houseId,  DateTime date,  double valueKwh,  MeterType meterType,  double? costFcfa,  String? note,  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String houseId,  DateTime date,  double valueKwh,  MeterType meterType,  double? rateFcfaPerKwh,  double? costFcfa,  String? note,  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ElectricityReading() when $default != null:
-return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType,_that.costFcfa,_that.note,_that.createdAt);case _:
+return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType,_that.rateFcfaPerKwh,_that.costFcfa,_that.note,_that.createdAt);case _:
   return null;
 
 }
@@ -216,7 +217,7 @@ return $default(_that.id,_that.houseId,_that.date,_that.valueKwh,_that.meterType
 @JsonSerializable()
 
 class _ElectricityReading implements ElectricityReading {
-  const _ElectricityReading({required this.id, required this.houseId, required this.date, required this.valueKwh, required this.meterType, this.costFcfa, this.note, required this.createdAt});
+  const _ElectricityReading({required this.id, required this.houseId, required this.date, required this.valueKwh, required this.meterType, this.rateFcfaPerKwh, this.costFcfa, this.note, required this.createdAt});
   factory _ElectricityReading.fromJson(Map<String, dynamic> json) => _$ElectricityReadingFromJson(json);
 
 @override final  String id;
@@ -224,6 +225,7 @@ class _ElectricityReading implements ElectricityReading {
 @override final  DateTime date;
 @override final  double valueKwh;
 @override final  MeterType meterType;
+@override final  double? rateFcfaPerKwh;
 @override final  double? costFcfa;
 @override final  String? note;
 @override final  DateTime createdAt;
@@ -241,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElectricityReading&&(identical(other.id, id) || other.id == id)&&(identical(other.houseId, houseId) || other.houseId == houseId)&&(identical(other.date, date) || other.date == date)&&(identical(other.valueKwh, valueKwh) || other.valueKwh == valueKwh)&&(identical(other.meterType, meterType) || other.meterType == meterType)&&(identical(other.costFcfa, costFcfa) || other.costFcfa == costFcfa)&&(identical(other.note, note) || other.note == note)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElectricityReading&&(identical(other.id, id) || other.id == id)&&(identical(other.houseId, houseId) || other.houseId == houseId)&&(identical(other.date, date) || other.date == date)&&(identical(other.valueKwh, valueKwh) || other.valueKwh == valueKwh)&&(identical(other.meterType, meterType) || other.meterType == meterType)&&(identical(other.rateFcfaPerKwh, rateFcfaPerKwh) || other.rateFcfaPerKwh == rateFcfaPerKwh)&&(identical(other.costFcfa, costFcfa) || other.costFcfa == costFcfa)&&(identical(other.note, note) || other.note == note)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,houseId,date,valueKwh,meterType,costFcfa,note,createdAt);
+int get hashCode => Object.hash(runtimeType,id,houseId,date,valueKwh,meterType,rateFcfaPerKwh,costFcfa,note,createdAt);
 
 @override
 String toString() {
-  return 'ElectricityReading(id: $id, houseId: $houseId, date: $date, valueKwh: $valueKwh, meterType: $meterType, costFcfa: $costFcfa, note: $note, createdAt: $createdAt)';
+  return 'ElectricityReading(id: $id, houseId: $houseId, date: $date, valueKwh: $valueKwh, meterType: $meterType, rateFcfaPerKwh: $rateFcfaPerKwh, costFcfa: $costFcfa, note: $note, createdAt: $createdAt)';
 }
 
 
@@ -261,7 +263,7 @@ abstract mixin class _$ElectricityReadingCopyWith<$Res> implements $ElectricityR
   factory _$ElectricityReadingCopyWith(_ElectricityReading value, $Res Function(_ElectricityReading) _then) = __$ElectricityReadingCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String houseId, DateTime date, double valueKwh, MeterType meterType, double? costFcfa, String? note, DateTime createdAt
+ String id, String houseId, DateTime date, double valueKwh, MeterType meterType, double? rateFcfaPerKwh, double? costFcfa, String? note, DateTime createdAt
 });
 
 
@@ -278,14 +280,15 @@ class __$ElectricityReadingCopyWithImpl<$Res>
 
 /// Create a copy of ElectricityReading
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? houseId = null,Object? date = null,Object? valueKwh = null,Object? meterType = null,Object? costFcfa = freezed,Object? note = freezed,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? houseId = null,Object? date = null,Object? valueKwh = null,Object? meterType = null,Object? rateFcfaPerKwh = freezed,Object? costFcfa = freezed,Object? note = freezed,Object? createdAt = null,}) {
   return _then(_ElectricityReading(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,houseId: null == houseId ? _self.houseId : houseId // ignore: cast_nullable_to_non_nullable
 as String,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,valueKwh: null == valueKwh ? _self.valueKwh : valueKwh // ignore: cast_nullable_to_non_nullable
 as double,meterType: null == meterType ? _self.meterType : meterType // ignore: cast_nullable_to_non_nullable
-as MeterType,costFcfa: freezed == costFcfa ? _self.costFcfa : costFcfa // ignore: cast_nullable_to_non_nullable
+as MeterType,rateFcfaPerKwh: freezed == rateFcfaPerKwh ? _self.rateFcfaPerKwh : rateFcfaPerKwh // ignore: cast_nullable_to_non_nullable
+as double?,costFcfa: freezed == costFcfa ? _self.costFcfa : costFcfa // ignore: cast_nullable_to_non_nullable
 as double?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,

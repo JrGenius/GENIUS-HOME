@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/constants/enums.dart';
 import '../../../../core/extensions/context_extensions.dart';
 
 /// Reusable dialog for creating or editing a house
@@ -9,13 +11,27 @@ class HouseFormDialog extends StatefulWidget {
     this.initialName,
     this.initialInhabitants,
     this.initialRooms,
+    this.initialMeterType,
+    this.initialGasBottleType,
+    this.initialElectricityRateFcfaPerKwh,
     required this.onSave,
   });
 
   final String? initialName;
   final int? initialInhabitants;
   final int? initialRooms;
-  final Future<void> Function(String name, int inhabitants, int rooms) onSave;
+  final MeterType? initialMeterType;
+  final GasBottleType? initialGasBottleType;
+  final double? initialElectricityRateFcfaPerKwh;
+  final Future<void> Function(
+    String name,
+    int inhabitants,
+    int rooms,
+    MeterType meterType,
+    GasBottleType gasBottleType,
+    double electricityRateFcfaPerKwh,
+  )
+  onSave;
 
   @override
   State<HouseFormDialog> createState() => _HouseFormDialogState();
@@ -23,21 +39,33 @@ class HouseFormDialog extends StatefulWidget {
 
 class _HouseFormDialogState extends State<HouseFormDialog> {
   late final TextEditingController _nameCtrl;
+  late final TextEditingController _rateCtrl;
   late int _inhabitants;
   late int _rooms;
+  late MeterType _meterType;
+  late GasBottleType _gasBottleType;
   bool _saving = false;
 
   @override
   void initState() {
     super.initState();
     _nameCtrl = TextEditingController(text: widget.initialName ?? '');
+    _rateCtrl = TextEditingController(
+      text:
+          (widget.initialElectricityRateFcfaPerKwh ??
+                  AppConstants.defaultElectricityRate)
+              .toStringAsFixed(0),
+    );
     _inhabitants = widget.initialInhabitants ?? 4;
     _rooms = widget.initialRooms ?? 4;
+    _meterType = widget.initialMeterType ?? MeterType.prepaid;
+    _gasBottleType = widget.initialGasBottleType ?? GasBottleType.kg12;
   }
 
   @override
   void dispose() {
     _nameCtrl.dispose();
+    _rateCtrl.dispose();
     super.dispose();
   }
 
@@ -70,6 +98,52 @@ class _HouseFormDialogState extends State<HouseFormDialog> {
               value: _rooms,
               onChanged: (v) => setState(() => _rooms = v),
             ),
+            const SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Compteur', style: context.textTheme.titleSmall),
+            ),
+            const SizedBox(height: 8),
+            SegmentedButton<MeterType>(
+              segments: MeterType.values
+                  .map(
+                    (type) =>
+                        ButtonSegment(value: type, label: Text(type.label)),
+                  )
+                  .toList(),
+              selected: {_meterType},
+              onSelectionChanged: (value) =>
+                  setState(() => _meterType = value.first),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _rateCtrl,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: const InputDecoration(
+                labelText: 'Prix du kWh',
+                suffixText: 'FCFA/kWh',
+              ),
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<GasBottleType>(
+              initialValue: _gasBottleType,
+              decoration: const InputDecoration(
+                labelText: 'Bouteille de gaz préférée',
+              ),
+              items: GasBottleType.values
+                  .map(
+                    (type) =>
+                        DropdownMenuItem(value: type, child: Text(type.label)),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() => _gasBottleType = value);
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -84,8 +158,19 @@ class _HouseFormDialogState extends State<HouseFormDialog> {
               : () async {
                   final name = _nameCtrl.text.trim();
                   if (name.isEmpty) return;
+                  final electricityRate = double.tryParse(
+                    _rateCtrl.text.trim().replaceAll(',', '.'),
+                  );
+                  if (electricityRate == null || electricityRate <= 0) return;
                   setState(() => _saving = true);
-                  await widget.onSave(name, _inhabitants, _rooms);
+                  await widget.onSave(
+                    name,
+                    _inhabitants,
+                    _rooms,
+                    _meterType,
+                    _gasBottleType,
+                    electricityRate,
+                  );
                   if (context.mounted) Navigator.pop(context);
                 },
           child: Text(_saving ? 'Enregistrement…' : 'Enregistrer'),

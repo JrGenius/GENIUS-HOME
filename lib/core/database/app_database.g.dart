@@ -89,6 +89,18 @@ class $HousesTable extends Houses with TableInfo<$HousesTable, House> {
         requiredDuringInsert: false,
         defaultValue: const Constant('kg12'),
       );
+  static const VerificationMeta _electricityRateFcfaPerKwhMeta =
+      const VerificationMeta('electricityRateFcfaPerKwh');
+  @override
+  late final GeneratedColumn<double> electricityRateFcfaPerKwh =
+      GeneratedColumn<double>(
+        'electricity_rate_fcfa_per_kwh',
+        aliasedName,
+        false,
+        type: DriftSqlType.double,
+        requiredDuringInsert: false,
+        defaultValue: const Constant(99.0),
+      );
   static const VerificationMeta _addressMeta = const VerificationMeta(
     'address',
   );
@@ -175,6 +187,7 @@ class $HousesTable extends Houses with TableInfo<$HousesTable, House> {
     inhabitants,
     meterType,
     preferredGasBottleType,
+    electricityRateFcfaPerKwh,
     address,
     latitude,
     longitude,
@@ -241,6 +254,15 @@ class $HousesTable extends Houses with TableInfo<$HousesTable, House> {
         preferredGasBottleType.isAcceptableOrUnknown(
           data['preferred_gas_bottle_type']!,
           _preferredGasBottleTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('electricity_rate_fcfa_per_kwh')) {
+      context.handle(
+        _electricityRateFcfaPerKwhMeta,
+        electricityRateFcfaPerKwh.isAcceptableOrUnknown(
+          data['electricity_rate_fcfa_per_kwh']!,
+          _electricityRateFcfaPerKwhMeta,
         ),
       );
     }
@@ -325,6 +347,10 @@ class $HousesTable extends Houses with TableInfo<$HousesTable, House> {
         DriftSqlType.string,
         data['${effectivePrefix}preferred_gas_bottle_type'],
       )!,
+      electricityRateFcfaPerKwh: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}electricity_rate_fcfa_per_kwh'],
+      )!,
       address: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}address'],
@@ -370,6 +396,7 @@ class House extends DataClass implements Insertable<House> {
   final int inhabitants;
   final String meterType;
   final String preferredGasBottleType;
+  final double electricityRateFcfaPerKwh;
   final String? address;
   final double? latitude;
   final double? longitude;
@@ -385,6 +412,7 @@ class House extends DataClass implements Insertable<House> {
     required this.inhabitants,
     required this.meterType,
     required this.preferredGasBottleType,
+    required this.electricityRateFcfaPerKwh,
     this.address,
     this.latitude,
     this.longitude,
@@ -405,6 +433,9 @@ class House extends DataClass implements Insertable<House> {
     map['inhabitants'] = Variable<int>(inhabitants);
     map['meter_type'] = Variable<String>(meterType);
     map['preferred_gas_bottle_type'] = Variable<String>(preferredGasBottleType);
+    map['electricity_rate_fcfa_per_kwh'] = Variable<double>(
+      electricityRateFcfaPerKwh,
+    );
     if (!nullToAbsent || address != null) {
       map['address'] = Variable<String>(address);
     }
@@ -438,6 +469,7 @@ class House extends DataClass implements Insertable<House> {
       inhabitants: Value(inhabitants),
       meterType: Value(meterType),
       preferredGasBottleType: Value(preferredGasBottleType),
+      electricityRateFcfaPerKwh: Value(electricityRateFcfaPerKwh),
       address: address == null && nullToAbsent
           ? const Value.absent()
           : Value(address),
@@ -475,6 +507,9 @@ class House extends DataClass implements Insertable<House> {
       preferredGasBottleType: serializer.fromJson<String>(
         json['preferredGasBottleType'],
       ),
+      electricityRateFcfaPerKwh: serializer.fromJson<double>(
+        json['electricityRateFcfaPerKwh'],
+      ),
       address: serializer.fromJson<String?>(json['address']),
       latitude: serializer.fromJson<double?>(json['latitude']),
       longitude: serializer.fromJson<double?>(json['longitude']),
@@ -497,6 +532,9 @@ class House extends DataClass implements Insertable<House> {
       'preferredGasBottleType': serializer.toJson<String>(
         preferredGasBottleType,
       ),
+      'electricityRateFcfaPerKwh': serializer.toJson<double>(
+        electricityRateFcfaPerKwh,
+      ),
       'address': serializer.toJson<String?>(address),
       'latitude': serializer.toJson<double?>(latitude),
       'longitude': serializer.toJson<double?>(longitude),
@@ -515,6 +553,7 @@ class House extends DataClass implements Insertable<House> {
     int? inhabitants,
     String? meterType,
     String? preferredGasBottleType,
+    double? electricityRateFcfaPerKwh,
     Value<String?> address = const Value.absent(),
     Value<double?> latitude = const Value.absent(),
     Value<double?> longitude = const Value.absent(),
@@ -531,6 +570,8 @@ class House extends DataClass implements Insertable<House> {
     meterType: meterType ?? this.meterType,
     preferredGasBottleType:
         preferredGasBottleType ?? this.preferredGasBottleType,
+    electricityRateFcfaPerKwh:
+        electricityRateFcfaPerKwh ?? this.electricityRateFcfaPerKwh,
     address: address.present ? address.value : this.address,
     latitude: latitude.present ? latitude.value : this.latitude,
     longitude: longitude.present ? longitude.value : this.longitude,
@@ -552,6 +593,9 @@ class House extends DataClass implements Insertable<House> {
       preferredGasBottleType: data.preferredGasBottleType.present
           ? data.preferredGasBottleType.value
           : this.preferredGasBottleType,
+      electricityRateFcfaPerKwh: data.electricityRateFcfaPerKwh.present
+          ? data.electricityRateFcfaPerKwh.value
+          : this.electricityRateFcfaPerKwh,
       address: data.address.present ? data.address.value : this.address,
       latitude: data.latitude.present ? data.latitude.value : this.latitude,
       longitude: data.longitude.present ? data.longitude.value : this.longitude,
@@ -572,6 +616,7 @@ class House extends DataClass implements Insertable<House> {
           ..write('inhabitants: $inhabitants, ')
           ..write('meterType: $meterType, ')
           ..write('preferredGasBottleType: $preferredGasBottleType, ')
+          ..write('electricityRateFcfaPerKwh: $electricityRateFcfaPerKwh, ')
           ..write('address: $address, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
@@ -592,6 +637,7 @@ class House extends DataClass implements Insertable<House> {
     inhabitants,
     meterType,
     preferredGasBottleType,
+    electricityRateFcfaPerKwh,
     address,
     latitude,
     longitude,
@@ -611,6 +657,7 @@ class House extends DataClass implements Insertable<House> {
           other.inhabitants == this.inhabitants &&
           other.meterType == this.meterType &&
           other.preferredGasBottleType == this.preferredGasBottleType &&
+          other.electricityRateFcfaPerKwh == this.electricityRateFcfaPerKwh &&
           other.address == this.address &&
           other.latitude == this.latitude &&
           other.longitude == this.longitude &&
@@ -628,6 +675,7 @@ class HousesCompanion extends UpdateCompanion<House> {
   final Value<int> inhabitants;
   final Value<String> meterType;
   final Value<String> preferredGasBottleType;
+  final Value<double> electricityRateFcfaPerKwh;
   final Value<String?> address;
   final Value<double?> latitude;
   final Value<double?> longitude;
@@ -644,6 +692,7 @@ class HousesCompanion extends UpdateCompanion<House> {
     this.inhabitants = const Value.absent(),
     this.meterType = const Value.absent(),
     this.preferredGasBottleType = const Value.absent(),
+    this.electricityRateFcfaPerKwh = const Value.absent(),
     this.address = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
@@ -661,6 +710,7 @@ class HousesCompanion extends UpdateCompanion<House> {
     this.inhabitants = const Value.absent(),
     this.meterType = const Value.absent(),
     this.preferredGasBottleType = const Value.absent(),
+    this.electricityRateFcfaPerKwh = const Value.absent(),
     this.address = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
@@ -680,6 +730,7 @@ class HousesCompanion extends UpdateCompanion<House> {
     Expression<int>? inhabitants,
     Expression<String>? meterType,
     Expression<String>? preferredGasBottleType,
+    Expression<double>? electricityRateFcfaPerKwh,
     Expression<String>? address,
     Expression<double>? latitude,
     Expression<double>? longitude,
@@ -698,6 +749,8 @@ class HousesCompanion extends UpdateCompanion<House> {
       if (meterType != null) 'meter_type': meterType,
       if (preferredGasBottleType != null)
         'preferred_gas_bottle_type': preferredGasBottleType,
+      if (electricityRateFcfaPerKwh != null)
+        'electricity_rate_fcfa_per_kwh': electricityRateFcfaPerKwh,
       if (address != null) 'address': address,
       if (latitude != null) 'latitude': latitude,
       if (longitude != null) 'longitude': longitude,
@@ -717,6 +770,7 @@ class HousesCompanion extends UpdateCompanion<House> {
     Value<int>? inhabitants,
     Value<String>? meterType,
     Value<String>? preferredGasBottleType,
+    Value<double>? electricityRateFcfaPerKwh,
     Value<String?>? address,
     Value<double?>? latitude,
     Value<double?>? longitude,
@@ -735,6 +789,8 @@ class HousesCompanion extends UpdateCompanion<House> {
       meterType: meterType ?? this.meterType,
       preferredGasBottleType:
           preferredGasBottleType ?? this.preferredGasBottleType,
+      electricityRateFcfaPerKwh:
+          electricityRateFcfaPerKwh ?? this.electricityRateFcfaPerKwh,
       address: address ?? this.address,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
@@ -770,6 +826,11 @@ class HousesCompanion extends UpdateCompanion<House> {
     if (preferredGasBottleType.present) {
       map['preferred_gas_bottle_type'] = Variable<String>(
         preferredGasBottleType.value,
+      );
+    }
+    if (electricityRateFcfaPerKwh.present) {
+      map['electricity_rate_fcfa_per_kwh'] = Variable<double>(
+        electricityRateFcfaPerKwh.value,
       );
     }
     if (address.present) {
@@ -809,6 +870,7 @@ class HousesCompanion extends UpdateCompanion<House> {
           ..write('inhabitants: $inhabitants, ')
           ..write('meterType: $meterType, ')
           ..write('preferredGasBottleType: $preferredGasBottleType, ')
+          ..write('electricityRateFcfaPerKwh: $electricityRateFcfaPerKwh, ')
           ..write('address: $address, ')
           ..write('latitude: $latitude, ')
           ..write('longitude: $longitude, ')
@@ -2191,6 +2253,17 @@ class $ElectricityReadingsTable extends ElectricityReadings
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _rateFcfaPerKwhMeta = const VerificationMeta(
+    'rateFcfaPerKwh',
+  );
+  @override
+  late final GeneratedColumn<double> rateFcfaPerKwh = GeneratedColumn<double>(
+    'rate_fcfa_per_kwh',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _costFcfaMeta = const VerificationMeta(
     'costFcfa',
   );
@@ -2229,6 +2302,7 @@ class $ElectricityReadingsTable extends ElectricityReadings
     date,
     valueKwh,
     meterType,
+    rateFcfaPerKwh,
     costFcfa,
     note,
     createdAt,
@@ -2282,6 +2356,15 @@ class $ElectricityReadingsTable extends ElectricityReadings
     } else if (isInserting) {
       context.missing(_meterTypeMeta);
     }
+    if (data.containsKey('rate_fcfa_per_kwh')) {
+      context.handle(
+        _rateFcfaPerKwhMeta,
+        rateFcfaPerKwh.isAcceptableOrUnknown(
+          data['rate_fcfa_per_kwh']!,
+          _rateFcfaPerKwhMeta,
+        ),
+      );
+    }
     if (data.containsKey('cost_fcfa')) {
       context.handle(
         _costFcfaMeta,
@@ -2331,6 +2414,10 @@ class $ElectricityReadingsTable extends ElectricityReadings
         DriftSqlType.string,
         data['${effectivePrefix}meter_type'],
       )!,
+      rateFcfaPerKwh: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}rate_fcfa_per_kwh'],
+      ),
       costFcfa: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}cost_fcfa'],
@@ -2359,6 +2446,7 @@ class ElectricityReading extends DataClass
   final DateTime date;
   final double valueKwh;
   final String meterType;
+  final double? rateFcfaPerKwh;
   final double? costFcfa;
   final String? note;
   final DateTime createdAt;
@@ -2368,6 +2456,7 @@ class ElectricityReading extends DataClass
     required this.date,
     required this.valueKwh,
     required this.meterType,
+    this.rateFcfaPerKwh,
     this.costFcfa,
     this.note,
     required this.createdAt,
@@ -2380,6 +2469,9 @@ class ElectricityReading extends DataClass
     map['date'] = Variable<DateTime>(date);
     map['value_kwh'] = Variable<double>(valueKwh);
     map['meter_type'] = Variable<String>(meterType);
+    if (!nullToAbsent || rateFcfaPerKwh != null) {
+      map['rate_fcfa_per_kwh'] = Variable<double>(rateFcfaPerKwh);
+    }
     if (!nullToAbsent || costFcfa != null) {
       map['cost_fcfa'] = Variable<double>(costFcfa);
     }
@@ -2397,6 +2489,9 @@ class ElectricityReading extends DataClass
       date: Value(date),
       valueKwh: Value(valueKwh),
       meterType: Value(meterType),
+      rateFcfaPerKwh: rateFcfaPerKwh == null && nullToAbsent
+          ? const Value.absent()
+          : Value(rateFcfaPerKwh),
       costFcfa: costFcfa == null && nullToAbsent
           ? const Value.absent()
           : Value(costFcfa),
@@ -2416,6 +2511,7 @@ class ElectricityReading extends DataClass
       date: serializer.fromJson<DateTime>(json['date']),
       valueKwh: serializer.fromJson<double>(json['valueKwh']),
       meterType: serializer.fromJson<String>(json['meterType']),
+      rateFcfaPerKwh: serializer.fromJson<double?>(json['rateFcfaPerKwh']),
       costFcfa: serializer.fromJson<double?>(json['costFcfa']),
       note: serializer.fromJson<String?>(json['note']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -2430,6 +2526,7 @@ class ElectricityReading extends DataClass
       'date': serializer.toJson<DateTime>(date),
       'valueKwh': serializer.toJson<double>(valueKwh),
       'meterType': serializer.toJson<String>(meterType),
+      'rateFcfaPerKwh': serializer.toJson<double?>(rateFcfaPerKwh),
       'costFcfa': serializer.toJson<double?>(costFcfa),
       'note': serializer.toJson<String?>(note),
       'createdAt': serializer.toJson<DateTime>(createdAt),
@@ -2442,6 +2539,7 @@ class ElectricityReading extends DataClass
     DateTime? date,
     double? valueKwh,
     String? meterType,
+    Value<double?> rateFcfaPerKwh = const Value.absent(),
     Value<double?> costFcfa = const Value.absent(),
     Value<String?> note = const Value.absent(),
     DateTime? createdAt,
@@ -2451,6 +2549,9 @@ class ElectricityReading extends DataClass
     date: date ?? this.date,
     valueKwh: valueKwh ?? this.valueKwh,
     meterType: meterType ?? this.meterType,
+    rateFcfaPerKwh: rateFcfaPerKwh.present
+        ? rateFcfaPerKwh.value
+        : this.rateFcfaPerKwh,
     costFcfa: costFcfa.present ? costFcfa.value : this.costFcfa,
     note: note.present ? note.value : this.note,
     createdAt: createdAt ?? this.createdAt,
@@ -2462,6 +2563,9 @@ class ElectricityReading extends DataClass
       date: data.date.present ? data.date.value : this.date,
       valueKwh: data.valueKwh.present ? data.valueKwh.value : this.valueKwh,
       meterType: data.meterType.present ? data.meterType.value : this.meterType,
+      rateFcfaPerKwh: data.rateFcfaPerKwh.present
+          ? data.rateFcfaPerKwh.value
+          : this.rateFcfaPerKwh,
       costFcfa: data.costFcfa.present ? data.costFcfa.value : this.costFcfa,
       note: data.note.present ? data.note.value : this.note,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
@@ -2476,6 +2580,7 @@ class ElectricityReading extends DataClass
           ..write('date: $date, ')
           ..write('valueKwh: $valueKwh, ')
           ..write('meterType: $meterType, ')
+          ..write('rateFcfaPerKwh: $rateFcfaPerKwh, ')
           ..write('costFcfa: $costFcfa, ')
           ..write('note: $note, ')
           ..write('createdAt: $createdAt')
@@ -2490,6 +2595,7 @@ class ElectricityReading extends DataClass
     date,
     valueKwh,
     meterType,
+    rateFcfaPerKwh,
     costFcfa,
     note,
     createdAt,
@@ -2503,6 +2609,7 @@ class ElectricityReading extends DataClass
           other.date == this.date &&
           other.valueKwh == this.valueKwh &&
           other.meterType == this.meterType &&
+          other.rateFcfaPerKwh == this.rateFcfaPerKwh &&
           other.costFcfa == this.costFcfa &&
           other.note == this.note &&
           other.createdAt == this.createdAt);
@@ -2514,6 +2621,7 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
   final Value<DateTime> date;
   final Value<double> valueKwh;
   final Value<String> meterType;
+  final Value<double?> rateFcfaPerKwh;
   final Value<double?> costFcfa;
   final Value<String?> note;
   final Value<DateTime> createdAt;
@@ -2524,6 +2632,7 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
     this.date = const Value.absent(),
     this.valueKwh = const Value.absent(),
     this.meterType = const Value.absent(),
+    this.rateFcfaPerKwh = const Value.absent(),
     this.costFcfa = const Value.absent(),
     this.note = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -2535,6 +2644,7 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
     required DateTime date,
     required double valueKwh,
     required String meterType,
+    this.rateFcfaPerKwh = const Value.absent(),
     this.costFcfa = const Value.absent(),
     this.note = const Value.absent(),
     required DateTime createdAt,
@@ -2551,6 +2661,7 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
     Expression<DateTime>? date,
     Expression<double>? valueKwh,
     Expression<String>? meterType,
+    Expression<double>? rateFcfaPerKwh,
     Expression<double>? costFcfa,
     Expression<String>? note,
     Expression<DateTime>? createdAt,
@@ -2562,6 +2673,7 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
       if (date != null) 'date': date,
       if (valueKwh != null) 'value_kwh': valueKwh,
       if (meterType != null) 'meter_type': meterType,
+      if (rateFcfaPerKwh != null) 'rate_fcfa_per_kwh': rateFcfaPerKwh,
       if (costFcfa != null) 'cost_fcfa': costFcfa,
       if (note != null) 'note': note,
       if (createdAt != null) 'created_at': createdAt,
@@ -2575,6 +2687,7 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
     Value<DateTime>? date,
     Value<double>? valueKwh,
     Value<String>? meterType,
+    Value<double?>? rateFcfaPerKwh,
     Value<double?>? costFcfa,
     Value<String?>? note,
     Value<DateTime>? createdAt,
@@ -2586,6 +2699,7 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
       date: date ?? this.date,
       valueKwh: valueKwh ?? this.valueKwh,
       meterType: meterType ?? this.meterType,
+      rateFcfaPerKwh: rateFcfaPerKwh ?? this.rateFcfaPerKwh,
       costFcfa: costFcfa ?? this.costFcfa,
       note: note ?? this.note,
       createdAt: createdAt ?? this.createdAt,
@@ -2611,6 +2725,9 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
     if (meterType.present) {
       map['meter_type'] = Variable<String>(meterType.value);
     }
+    if (rateFcfaPerKwh.present) {
+      map['rate_fcfa_per_kwh'] = Variable<double>(rateFcfaPerKwh.value);
+    }
     if (costFcfa.present) {
       map['cost_fcfa'] = Variable<double>(costFcfa.value);
     }
@@ -2634,6 +2751,7 @@ class ElectricityReadingsCompanion extends UpdateCompanion<ElectricityReading> {
           ..write('date: $date, ')
           ..write('valueKwh: $valueKwh, ')
           ..write('meterType: $meterType, ')
+          ..write('rateFcfaPerKwh: $rateFcfaPerKwh, ')
           ..write('costFcfa: $costFcfa, ')
           ..write('note: $note, ')
           ..write('createdAt: $createdAt, ')
@@ -3331,6 +3449,7 @@ typedef $$HousesTableCreateCompanionBuilder =
       Value<int> inhabitants,
       Value<String> meterType,
       Value<String> preferredGasBottleType,
+      Value<double> electricityRateFcfaPerKwh,
       Value<String?> address,
       Value<double?> latitude,
       Value<double?> longitude,
@@ -3349,6 +3468,7 @@ typedef $$HousesTableUpdateCompanionBuilder =
       Value<int> inhabitants,
       Value<String> meterType,
       Value<String> preferredGasBottleType,
+      Value<double> electricityRateFcfaPerKwh,
       Value<String?> address,
       Value<double?> latitude,
       Value<double?> longitude,
@@ -3469,6 +3589,11 @@ class $$HousesTableFilterComposer
 
   ColumnFilters<String> get preferredGasBottleType => $composableBuilder(
     column: $table.preferredGasBottleType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get electricityRateFcfaPerKwh => $composableBuilder(
+    column: $table.electricityRateFcfaPerKwh,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3627,6 +3752,11 @@ class $$HousesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<double> get electricityRateFcfaPerKwh => $composableBuilder(
+    column: $table.electricityRateFcfaPerKwh,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get address => $composableBuilder(
     column: $table.address,
     builder: (column) => ColumnOrderings(column),
@@ -3694,6 +3824,11 @@ class $$HousesTableAnnotationComposer
 
   GeneratedColumn<String> get preferredGasBottleType => $composableBuilder(
     column: $table.preferredGasBottleType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get electricityRateFcfaPerKwh => $composableBuilder(
+    column: $table.electricityRateFcfaPerKwh,
     builder: (column) => column,
   );
 
@@ -3834,6 +3969,7 @@ class $$HousesTableTableManager
                 Value<int> inhabitants = const Value.absent(),
                 Value<String> meterType = const Value.absent(),
                 Value<String> preferredGasBottleType = const Value.absent(),
+                Value<double> electricityRateFcfaPerKwh = const Value.absent(),
                 Value<String?> address = const Value.absent(),
                 Value<double?> latitude = const Value.absent(),
                 Value<double?> longitude = const Value.absent(),
@@ -3850,6 +3986,7 @@ class $$HousesTableTableManager
                 inhabitants: inhabitants,
                 meterType: meterType,
                 preferredGasBottleType: preferredGasBottleType,
+                electricityRateFcfaPerKwh: electricityRateFcfaPerKwh,
                 address: address,
                 latitude: latitude,
                 longitude: longitude,
@@ -3868,6 +4005,7 @@ class $$HousesTableTableManager
                 Value<int> inhabitants = const Value.absent(),
                 Value<String> meterType = const Value.absent(),
                 Value<String> preferredGasBottleType = const Value.absent(),
+                Value<double> electricityRateFcfaPerKwh = const Value.absent(),
                 Value<String?> address = const Value.absent(),
                 Value<double?> latitude = const Value.absent(),
                 Value<double?> longitude = const Value.absent(),
@@ -3884,6 +4022,7 @@ class $$HousesTableTableManager
                 inhabitants: inhabitants,
                 meterType: meterType,
                 preferredGasBottleType: preferredGasBottleType,
+                electricityRateFcfaPerKwh: electricityRateFcfaPerKwh,
                 address: address,
                 latitude: latitude,
                 longitude: longitude,
@@ -4939,6 +5078,7 @@ typedef $$ElectricityReadingsTableCreateCompanionBuilder =
       required DateTime date,
       required double valueKwh,
       required String meterType,
+      Value<double?> rateFcfaPerKwh,
       Value<double?> costFcfa,
       Value<String?> note,
       required DateTime createdAt,
@@ -4951,6 +5091,7 @@ typedef $$ElectricityReadingsTableUpdateCompanionBuilder =
       Value<DateTime> date,
       Value<double> valueKwh,
       Value<String> meterType,
+      Value<double?> rateFcfaPerKwh,
       Value<double?> costFcfa,
       Value<String?> note,
       Value<DateTime> createdAt,
@@ -5015,6 +5156,11 @@ class $$ElectricityReadingsTableFilterComposer
 
   ColumnFilters<String> get meterType => $composableBuilder(
     column: $table.meterType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get rateFcfaPerKwh => $composableBuilder(
+    column: $table.rateFcfaPerKwh,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5086,6 +5232,11 @@ class $$ElectricityReadingsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<double> get rateFcfaPerKwh => $composableBuilder(
+    column: $table.rateFcfaPerKwh,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<double> get costFcfa => $composableBuilder(
     column: $table.costFcfa,
     builder: (column) => ColumnOrderings(column),
@@ -5145,6 +5296,11 @@ class $$ElectricityReadingsTableAnnotationComposer
 
   GeneratedColumn<String> get meterType =>
       $composableBuilder(column: $table.meterType, builder: (column) => column);
+
+  GeneratedColumn<double> get rateFcfaPerKwh => $composableBuilder(
+    column: $table.rateFcfaPerKwh,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get costFcfa =>
       $composableBuilder(column: $table.costFcfa, builder: (column) => column);
@@ -5220,6 +5376,7 @@ class $$ElectricityReadingsTableTableManager
                 Value<DateTime> date = const Value.absent(),
                 Value<double> valueKwh = const Value.absent(),
                 Value<String> meterType = const Value.absent(),
+                Value<double?> rateFcfaPerKwh = const Value.absent(),
                 Value<double?> costFcfa = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
@@ -5230,6 +5387,7 @@ class $$ElectricityReadingsTableTableManager
                 date: date,
                 valueKwh: valueKwh,
                 meterType: meterType,
+                rateFcfaPerKwh: rateFcfaPerKwh,
                 costFcfa: costFcfa,
                 note: note,
                 createdAt: createdAt,
@@ -5242,6 +5400,7 @@ class $$ElectricityReadingsTableTableManager
                 required DateTime date,
                 required double valueKwh,
                 required String meterType,
+                Value<double?> rateFcfaPerKwh = const Value.absent(),
                 Value<double?> costFcfa = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 required DateTime createdAt,
@@ -5252,6 +5411,7 @@ class $$ElectricityReadingsTableTableManager
                 date: date,
                 valueKwh: valueKwh,
                 meterType: meterType,
+                rateFcfaPerKwh: rateFcfaPerKwh,
                 costFcfa: costFcfa,
                 note: note,
                 createdAt: createdAt,
